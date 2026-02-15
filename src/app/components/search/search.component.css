@@ -1,0 +1,16 @@
+.search-card { padding:18px; border-radius:10px; background:var(--card, #fff); border:1px solid var(--border, #e6e9ef); box-shadow:var(--shadow, 0 6px 18px rgba(16,24,40,0.06)); }
+
+/* Responsive grid for inputs */
+.search-form {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:12px;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+/* Make search button stand out and left-aligned on small screens */
+.search-actions { display:flex; gap:8px; align-items:center; }
+
+/* Table visual tweaks retained from global theme */
+.table-wrap { margin-top:12px; border-radius:8px; overflow:hidden; }

@@ -1,0 +1,21 @@
+﻿<section class="upload">
+  <h2>Upload CSV</h2>
+
+  <div class="controls">
+    <input type="file" (change)="onFileChanged($event)" accept=".csv" />
+    <button (click)="upload()" [disabled]="uploading">Upload</button>
+    <button (click)="downloadErrors()" [disabled]="!lastUploadId">Download Errors</button>
+  </div>
+
+  <div *ngIf="uploading" class="progress">
+    <label>Progress</label>
+    <progress [value]="progress" max="100"></progress>
+    <span>{{progress}}%</span>
+  </div>
+
+  <div *ngIf="message" class="message">{{ message }}</div>
+
+  <div *ngIf="lastUploadId" class="last-id">
+    Last Batch Id: <code>{{ lastUploadId }}</code>
+  </div>
+</section>

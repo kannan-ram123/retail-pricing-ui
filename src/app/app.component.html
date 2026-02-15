@@ -1,0 +1,13 @@
+﻿<header class="app-header">
+  <nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Upload</a>
+    <span class="sep">|</span>
+    <a routerLink="/search" routerLinkActive="active">Search</a>
+  </nav>
+</header>
+
+<div class="app">
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,51 @@
+﻿<div class="card p-3">
+  <h3>Search Pricing Records</h3>
+  <div class="row g-2">
+    <div class="col-auto">
+      <input class="form-control" [(ngModel)]="storeId" name="storeId" placeholder="StoreId" type="number" />
+    </div>
+    <div class="col-auto">
+      <input class="form-control" [(ngModel)]="sku" name="sku" placeholder="SKU" />
+    </div>
+    <div class="col-auto">
+      <input class="form-control" [(ngModel)]="fromDate" name="fromDate" placeholder="From (yyyy-MM-dd)" />
+    </div>
+    <div class="col-auto">
+      <input class="form-control" [(ngModel)]="toDate" name="toDate" placeholder="To (yyyy-MM-dd)" />
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" type="button" (click)="search()" [disabled]="loading">Search</button>
+    </div>
+  </div>
+
+  <div class="mt-3" *ngIf="loading">Loading...</div>
+
+  <table class="table table-sm mt-3" *ngIf="results.length">
+    <thead>
+      <tr>
+        <th>Id</th><th>Store</th><th>SKU</th><th>Price</th><th>Date</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of results">
+        <td>{{r.pricingRecordId}}</td>
+        <td>{{r.storeId}}</td>
+        <td>{{r.sku}}</td>
+        <td>
+          <div *ngIf="editingId !== r.pricingRecordId">{{r.price | number:'1.2-2'}}</div>
+          <div *ngIf="editingId === r.pricingRecordId">
+            <input class="form-control form-control-sm" [(ngModel)]="editPrice" />
+          </div>
+        </td>
+        <td>{{r.priceDate | date:'yyyy-MM-dd'}}</td>
+        <td>
+          <button *ngIf="editingId !== r.pricingRecordId" class="btn btn-sm btn-outline-primary" (click)="startEdit(r)">Edit</button>
+          <button *ngIf="editingId === r.pricingRecordId" class="btn btn-sm btn-success ms-1" (click)="saveEdit(r)">Save</button>
+          <button *ngIf="editingId === r.pricingRecordId" class="btn btn-sm btn-secondary ms-1" (click)="cancelEdit()">Cancel</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!results.length && !loading" class="mt-3">No records</div>
+</div>
