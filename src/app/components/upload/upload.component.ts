@@ -1,4 +1,4 @@
-﻿import { Component } from "@angular/core";
+﻿import { Component, ChangeDetectorRef } from "@angular/core";
 import { ApiService } from "../../services/api.service";
 import { Subscription } from "rxjs";
 import { lastValueFrom } from "rxjs";
@@ -20,14 +20,21 @@ export class UploadComponent {
   message?: string;
   sub?: Subscription;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   onFileChanged(ev: Event) {
     const input = ev.target as HTMLInputElement;
     this.file = input.files && input.files[0] ? input.files[0] : undefined;
   }
 
+  submitUpload() {
+    try { this.cdr.detectChanges(); } catch {}
+    this.upload();
+    try { this.cdr.markForCheck(); } catch {}
+  }
+
   upload() {
+    console.log('Upload clicked', { file: this.file, uploading: this.uploading });
     if (!this.file) { this.message = "Select a file first."; return; }
     this.uploading = true;
     this.progress = 0;
@@ -40,15 +47,24 @@ export class UploadComponent {
         this.message = "Upload completed. BatchId: " + this.lastUploadId;
         this.uploading = false;
         this.sub?.unsubscribe();
+        try { this.cdr.markForCheck(); } catch {}
       }
     }, err => {
       this.message = "Upload failed: " + (err?.message || err.statusText || "unknown");
       this.uploading = false;
       this.sub?.unsubscribe();
+      try { this.cdr.markForCheck(); } catch {}
     });
   }
 
+  submitDownloadErrors() {
+    try { this.cdr.detectChanges(); } catch {}
+    this.downloadErrors();
+    try { this.cdr.markForCheck(); } catch {}
+  }
+
   async downloadErrors() {
+    console.log('DownloadErrors clicked', { lastUploadId: this.lastUploadId });
     if (!this.lastUploadId) { this.message = "No uploaded batch to download errors for."; return; }
     const blob = await lastValueFrom(this.api.downloadUploadErrors(this.lastUploadId));
     const url = window.URL.createObjectURL(blob);

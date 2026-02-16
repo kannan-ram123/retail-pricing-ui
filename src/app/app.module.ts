@@ -1,7 +1,7 @@
-﻿import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+﻿import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { Routes } from '@angular/router';
 
 // standalone bootstrap component
 import { AppComponent } from './app.component';
@@ -16,14 +16,9 @@ const routes: Routes = [
   { path: '**', redirectTo: '' }
 ];
 
-@NgModule({
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(routes),
-    AppComponent // import standalone bootstrap component
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient()
+  ]
+}).catch(err => console.error(err));

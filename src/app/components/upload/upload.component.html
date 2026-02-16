@@ -3,8 +3,8 @@
 
   <div class="controls">
     <input type="file" (change)="onFileChanged($event)" accept=".csv" />
-    <button (click)="upload()" [disabled]="uploading">Upload</button>
-    <button (click)="downloadErrors()" [disabled]="!lastUploadId">Download Errors</button>
+    <button type="button" class="btn btn-primary" (click)="submitUpload()" [disabled]="uploading">Upload</button>
+    <button type="button" class="btn btn-secondary" (click)="submitDownloadErrors()" [disabled]="!lastUploadId">Download Errors</button>
   </div>
 
   <div *ngIf="uploading" class="progress">
